@@ -149,7 +149,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ id: string 
             <div>
               <h3 className="font-bold text-xl">{reservation.stock.product.name}</h3>
               <p className="text-gray-500">Ships from {reservation.stock.warehouse.name}</p>
-              <p className="font-semibold mt-2">${reservation.stock.product.price.toFixed(2)} x {reservation.quantity}</p>
+              <p className="font-semibold mt-2">₹{reservation.stock.product.price.toFixed(2)} x {reservation.quantity}</p>
             </div>
           </div>
 

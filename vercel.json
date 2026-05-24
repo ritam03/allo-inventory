@@ -4,5 +4,6 @@
       "path": "/api/cron/release-expired",
       "schedule": "0 0 * * *"
     }
-  ]
+  ],
+  "regions": ["sin1"]
 }

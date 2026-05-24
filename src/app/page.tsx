@@ -14,6 +14,7 @@ type Product = { id: string; name: string; description: string; price: number; i
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingState, setLoadingState] = useState<string | null>(null);
   const router = useRouter();
 
   const fetchProducts = async () => {
@@ -34,6 +35,7 @@ export default function Home() {
   }, []);
 
   const handleReserve = async (productId: string, warehouseId: string) => {
+    setLoadingState(`${productId}-${warehouseId}`);
     try {
       const res = await fetch('/api/reservations', {
         method: 'POST',
@@ -61,6 +63,8 @@ export default function Home() {
     } catch (err) {
       console.error(err);
       toast.error("An unexpected error occurred");
+    } finally {
+      setLoadingState(null);
     }
   };
 
@@ -68,7 +72,7 @@ export default function Home() {
 
   return (
     <main className="container mx-auto p-8 max-w-6xl">
-      <h1 className="text-4xl font-bold mb-8">Allo Store</h1>
+      <h1 className="text-4xl font-bold mb-8">Allo Health Inventory</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map(product => (
@@ -81,7 +85,7 @@ export default function Home() {
               <CardDescription>{product.description}</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
-              <p className="text-2xl font-bold mb-4">${product.price.toFixed(2)}</p>
+              <p className="text-2xl font-bold mb-4">₹{product.price.toFixed(2)}</p>
               
               <div className="space-y-3">
                 <h4 className="font-semibold text-sm uppercase text-gray-500">Availability</h4>
@@ -98,10 +102,10 @@ export default function Home() {
                       <Button 
                         size="sm" 
                         className="mt-2" 
-                        disabled={stock.availableUnits === 0}
+                        disabled={stock.availableUnits === 0 || loadingState === `${product.id}-${stock.warehouseId}`}
                         onClick={() => handleReserve(product.id, stock.warehouseId)}
                       >
-                        Reserve
+                        {loadingState === `${product.id}-${stock.warehouseId}` ? 'Reserving...' : 'Reserve'}
                       </Button>
                     </div>
                   </div>
@@ -111,6 +115,10 @@ export default function Home() {
           </Card>
         ))}
       </div>
+      
+      <footer className="mt-16 text-center text-gray-500 text-sm pb-8">
+        Made by Ritam Pal
+      </footer>
     </main>
   );
 }

@@ -1,6 +1,10 @@
-# Allo Inventory Management - Take-Home Exercise
+# Allo Health Inventory - Take-Home Exercise
+**By: Ritam Pal**
 
 This is a Next.js application that implements an inventory and order-fulfillment platform with a focus on concurrency control during the checkout process.
+
+**Live Demo**: [https://allo-inventory-smoky.vercel.app](https://allo-inventory-smoky.vercel.app)
+**GitHub Repo**: [https://github.com/ritam03/allo-inventory](https://github.com/ritam03/allo-inventory)
 
 ## Architecture & Concurrency Control
 

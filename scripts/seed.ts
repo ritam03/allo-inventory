@@ -12,37 +12,37 @@ async function main() {
   await prisma.warehouse.deleteMany();
 
   const warehouse1 = await prisma.warehouse.create({
-    data: { name: 'East Coast Hub', location: 'New York, NY' }
+    data: { name: 'North India Fulfillment Center', location: 'New Delhi, DL' }
   });
 
   const warehouse2 = await prisma.warehouse.create({
-    data: { name: 'West Coast Hub', location: 'Los Angeles, CA' }
+    data: { name: 'South India Hub', location: 'Bengaluru, KA' }
   });
 
   const product1 = await prisma.product.create({
     data: {
-      name: 'Premium Wireless Headphones',
-      description: 'Noise-cancelling over-ear headphones with 40-hour battery life.',
-      price: 299.99,
-      imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80',
+      name: 'Omron Hem 7120 Blood Pressure Monitor',
+      description: 'Fully automatic blood pressure monitor with Intellisense technology.',
+      price: 1899.00,
+      imageUrl: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=800&q=80',
     }
   });
 
   const product2 = await prisma.product.create({
     data: {
-      name: 'Mechanical Keyboard',
-      description: 'Hot-swappable mechanical keyboard with RGB backlighting.',
-      price: 149.99,
-      imageUrl: 'https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&q=80',
+      name: 'Accu-Chek Active Blood Glucose Meter',
+      description: 'Accurate and easy-to-use blood glucose monitoring system.',
+      price: 949.00,
+      imageUrl: 'https://images.unsplash.com/photo-1583324113626-70df0f4deaab?w=800&q=80',
     }
   });
 
   const product3 = await prisma.product.create({
     data: {
-      name: 'Limited Edition Sneakers',
-      description: 'Extremely limited run sneakers. Get them before they are gone.',
-      price: 199.99,
-      imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
+      name: 'Pulse Oximeter Fingertip',
+      description: 'High-accuracy SpO2 and pulse rate measurement device.',
+      price: 499.00,
+      imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5e4a81411?w=800&q=80',
     }
   });
 
