@@ -21,28 +21,28 @@ async function main() {
 
   const product1 = await prisma.product.create({
     data: {
-      name: 'Omron Hem 7120 Blood Pressure Monitor',
-      description: 'Fully automatic blood pressure monitor with Intellisense technology.',
-      price: 1899.00,
-      imageUrl: 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=800&q=80',
+      name: 'Paracetamol 500mg (10 Tablets)',
+      description: 'Effective pain relief and fever reduction medication.',
+      price: 25.00,
+      imageUrl: '/medicine.png',
     }
   });
 
   const product2 = await prisma.product.create({
     data: {
-      name: 'Accu-Chek Active Blood Glucose Meter',
-      description: 'Accurate and easy-to-use blood glucose monitoring system.',
-      price: 949.00,
-      imageUrl: 'https://images.unsplash.com/photo-1583324113626-70df0f4deaab?w=800&q=80',
+      name: 'Vitamin C 1000mg (20 Tablets)',
+      description: 'Daily immunity booster with natural citrus extract.',
+      price: 150.00,
+      imageUrl: '/medicine.png',
     }
   });
 
   const product3 = await prisma.product.create({
     data: {
-      name: 'Pulse Oximeter Fingertip',
-      description: 'High-accuracy SpO2 and pulse rate measurement device.',
-      price: 499.00,
-      imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5e4a81411?w=800&q=80',
+      name: 'Aspirin 75mg (15 Tablets)',
+      description: 'Low-dose aspirin for daily heart health support.',
+      price: 45.00,
+      imageUrl: '/medicine.png',
     }
   });
 
