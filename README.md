@@ -10,6 +10,40 @@ This is a Next.js application that implements an inventory and order-fulfillment
 
 To prevent race conditions during inventory reservation and payment processing, this app uses a pessimistic locking strategy combined with atomic updates in PostgreSQL.
 
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Vercel API
+    participant Upstash Redis
+    participant Neon Postgres
+
+    User->>Frontend: Click "Reserve"
+    Frontend->>Vercel API: POST /api/reservations (Idempotency-Key)
+    Vercel API->>Upstash Redis: Check Idempotency Key
+    Upstash Redis-->>Vercel API: Not found
+    Vercel API->>Neon Postgres: Atomic update (availableUnits -= 1)
+    Neon Postgres-->>Vercel API: Success
+    Vercel API->>Neon Postgres: Create pending reservation (Expires in 10m)
+    Vercel API->>Upstash Redis: Set Idempotency Key
+    Vercel API-->>Frontend: Reservation OK
+    Frontend-->>User: Show Checkout with Countdown
+
+    opt Payment Succeeds
+        User->>Frontend: Click "Pay Now"
+        Frontend->>Vercel API: POST /api/reservations/:id/confirm
+        Vercel API->>Neon Postgres: Update reservation status to 'confirmed'
+        Vercel API->>Neon Postgres: Update totalUnits -= 1
+    end
+
+    opt Expiry (No Payment)
+        participant Vercel Cron
+        Vercel Cron->>Vercel API: GET /api/cron/release-expired (Daily/Minutely)
+        Vercel API->>Neon Postgres: Find expired pending reservations
+        Vercel API->>Neon Postgres: Mark 'released' & availableUnits += 1
+    end
+```
+
 ### Reservation Flow
 1. **Reserve**: When a user clicks "Reserve", an API request is sent. The server performs an atomic decrement on `availableUnits` using a conditional update: `updateMany` where `availableUnits >= quantity`. This completely eliminates race conditions where multiple users try to reserve the last unit at the exact same millisecond. If successful, it creates a `pending` reservation with a 10-minute expiry.
 2. **Confirm**: Upon payment success, an atomic update is performed to mark the `pending` reservation as `confirmed`. It also ensures the `expiresAt` hasn't passed. This prevents concurrent expirations from race-conditioning with payments. The `totalUnits` (representing physical stock) is decremented.
