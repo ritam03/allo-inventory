@@ -66,12 +66,46 @@ Reservations that are not confirmed before `expiresAt` are automatically release
 
 ## Getting Started
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Ensure you have the environment variables set up in `.env` (these are provided in the repo for demo purposes, although normally they'd be secret).
-4. Run migrations: `npx prisma db push`
-5. Seed the database: `npx tsx scripts/seed.ts`
-6. Run the dev server: `npm run dev`
+To run this application locally, follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ritam03/allo-inventory.git
+   cd allo-inventory
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables:**
+   Create a `.env` file in the root directory and populate it with your PostgreSQL and Upstash Redis connection strings:
+   ```env
+   DATABASE_URL="your-database-url"
+   DIRECT_URL="your-direct-database-url"
+   UPSTASH_REDIS_REST_URL="your-upstash-redis-url"
+   UPSTASH_REDIS_REST_TOKEN="your-upstash-redis-token"
+   ```
+
+4. **Initialize the Database:**
+   Synchronize the Prisma schema with your database:
+   ```bash
+   npx prisma db push
+   npx prisma generate
+   ```
+
+5. **Seed the Database:**
+   Populate the application with initial inventory data:
+   ```bash
+   npx tsx scripts/seed.ts
+   ```
+
+6. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:3000`.
 
 ## Trade-offs and Future Improvements
 - **Expiry Mechanism Frequency**: Vercel's free tier limits cron jobs to once per day natively on free plan sometimes, but assuming pro tier it runs every minute. If 1-minute granularity is too slow, a background worker (like Inngest or Trigger.dev) or Redis TTL key-space notifications could be used for exact millisecond expirations.
